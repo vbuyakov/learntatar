@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Словари</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-item no-lines>
+    <ion-label>
+  Текущий словарь
+      <ion-item no-border no-lines>
+        <img [src]="langs[fromLang].flag">
+        <img [src]="langs[toLang].flag">
+      </ion-item>
+    </ion-label>
+
+
+    <ion-select [(ngModel)]="language" (ionChange)="changeLanguage()">
+      <ion-option value="CHR_RU">
+        CHR->RU
+      </ion-option>
+      <ion-option value="RU_CHR">
+        RU->CHR
+       </ion-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-searchbar (ionInput)="searchWordChanged($event)" [(ngModel)]="searchWord" debounce="300" placeholder="Введите слово"></ion-searchbar>
+
+  <ion-card *ngIf="showNotFound" >
+  <ion-card-header>
+      Слово не найдено
+    </ion-card-header>
+    <ion-card-content>
+      Попробуйте ввести только первые буквы слова или изменить направление перевода
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="!showNotFound && totalItems > items.length" >
+    <ion-card-content>
+    Показано {{items.length}} из {{totalItems}} варантов
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list no-padding >
+    <ion-item *ngFor="let item of items" no-padding >
+          <span class="word_title" color="primary">{{item.word}}
+            </span>
+            <br />
+          <span class="word_descr" [innerHTML]="item.description">
+
+            </span>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
